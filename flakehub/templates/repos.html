@@ -1,7 +1,0 @@
-<ul>
-{% for repo in repos %}
-    <li>
-        <a href="{{ url_for('github.repo', user=user.login, repo=repo.name) }}">{{repo.full_name}}</a>
-    </li>
-{% endfor %}
-</ul>

@@ -13,8 +13,8 @@ ACCESS_TOKEN = '966fbb0b406357ad8eaf24ce0654459a01eb2e5a'
 blueprint = Blueprint('webhook', __name__)
 
 
-@blueprint.route('/hook', methods=['POST'])
-def post():
+@blueprint.route('/', methods=['POST'])
+def hook():
     payload = request.get_json()
 
     if 'pull_request' in payload and payload.get('action') in ['opened', 'synchronized']:
@@ -34,8 +34,9 @@ def post():
             full_name=repo.full_name,
             sha=pull_request['head']['sha']
         )
+        import ipdb;ipdb.set_trace() # FIXME: decrypt token
         headers = {
-            'Authorization': 'token {}'.format(current_app.config['ACCESS_TOKEN']),
+            'Authorization': 'token {}'.format(token),
             'Content-Type': 'application/json'
         }
         data = {
