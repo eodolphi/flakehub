@@ -22,4 +22,3 @@ class Repo(object):
         code_checker = checker.Checker(self.full_name)
 
         return code_checker.errors
-
