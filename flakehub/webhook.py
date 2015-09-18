@@ -1,6 +1,6 @@
 import json
 
-from flask import Blueprint, request, current_app
+from flask import Blueprint, request
 
 import requests
 
