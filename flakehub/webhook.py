@@ -1,7 +1,8 @@
 import json
 
-from flask import Blueprint, request, current_app
 import rethinkdb as r
+from flask import Blueprint, request
+
 import requests
 
 from flakehub.repo import Repo
