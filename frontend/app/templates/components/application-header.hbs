@@ -1,0 +1,20 @@
+<section id="header">
+  <header>
+    <h2>{{env.application_name}}</h2>
+    <ul id="menu">
+      {{#if session.isAuthenticated}}
+        <li class="user">
+          {{application-header/user session=session}}
+        </li>
+        <li>
+          {{#link-to 'repo-list'}}Repositories{{/link-to}}
+        </li>
+      {{else}}
+        <li class="login">
+          {{application-header/login session=session}}
+        </li>
+      {{/if}}
+      {{yield}}
+    </ul>
+  </header>
+</section>

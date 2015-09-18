@@ -1,17 +1,17 @@
 from flask import Flask
 
-from flakehub import github, webhook
+from flakehub import github, webhook, db
 
 
 app = Flask(__name__)
-
+app.config.from_object('flakehub.config')
 
 github.oauth.init_app(app)
-app.register_blueprint(github.blueprint, url_prefix='/github')
+db.db.init_app(app)
 
+
+app.register_blueprint(github.blueprint, url_prefix='/api')
 app.register_blueprint(webhook.blueprint, url_prefix='/webhook')
-
-app.config.from_object('flakehub.config')
 
 
 if __name__ == '__main__':

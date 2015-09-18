@@ -1,11 +1,11 @@
 import json
 
 from flask import Blueprint, request, current_app
-
+import rethinkdb as r
 import requests
 
 from flakehub.repo import Repo
-from flakehub.github import github
+from flakehub.db import db
 
 
 ACCESS_TOKEN = '966fbb0b406357ad8eaf24ce0654459a01eb2e5a'
@@ -17,8 +17,12 @@ blueprint = Blueprint('webhook', __name__)
 def hook():
     payload = request.get_json()
 
-    if 'pull_request' in payload and payload.get('action') in ['opened', 'synchronized']:
+    if 'pull_request' in payload and payload.get('action') in ['opened', 'synchronize']:
         pull_request = payload['pull_request']
+
+        access_token = r.table('hooks').get(
+            payload['repository']['full_name']
+        ).run(db.conn)['access_token']
 
         repo = Repo(pull_request['base']['repo']['full_name'])
         repo.checkout(pull_request['head']['sha'])
@@ -34,15 +38,14 @@ def hook():
             full_name=repo.full_name,
             sha=pull_request['head']['sha']
         )
-        import ipdb;ipdb.set_trace() # FIXME: decrypt token
         headers = {
-            'Authorization': 'token {}'.format(token),
+            'Authorization': 'Bearer {}'.format(access_token),
             'Content-Type': 'application/json'
         }
         data = {
             'state': state,
             'description': description,
-            'contect': 'flake8',
+            'context': 'flakehub',
             'target': 'http://www.example.com'
         }
 

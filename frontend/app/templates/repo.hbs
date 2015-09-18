@@ -1,0 +1,7 @@
+<h1>{{model.repo.id}}</h1>
+
+<p>{{model.repo.description}}</p>
+
+<a {{action 'toggle' model.hook}} class={{if model.repo.active active}}>
+  toggle {{model.repo.active}}
+</a>

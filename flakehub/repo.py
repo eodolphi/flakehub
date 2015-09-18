@@ -8,6 +8,7 @@ class Repo(object):
 
         try:
             self.repo = GitRepo('repos/{}'.format(full_name))
+            self.repo.git.fetch()
         except NoSuchPathError:
             self.repo = GitRepo.clone_from(
                 'git@github.com:{}.git'.format(full_name),

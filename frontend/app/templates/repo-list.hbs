@@ -1,0 +1,14 @@
+<header>
+  <h1>Your repos</h1>
+  <span class="small">
+    Select a repo to begin programming in style with
+  </span>
+
+</header>
+<ul class="repo-list">
+  {{#each model as |repo|}}
+  <li>
+    {{repo-list/item repo=repo}}
+  </li>
+  {{/each}}
+</ul>
